@@ -3,17 +3,21 @@ namespace App\Services\Cryptography;
 
 class CaesarCipher
 {
+    protected $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
     public function encrypt($text, $shift): string
     {
         $result = '';
-        $shift = $shift % 26; // Asegura que el shift esté en el rango de 0-25
+        $shift = $shift % strlen($this->alphabet); // Asegura que el shift esté en el rango de 0-25
 
-        for ($i = 0; $i < strlen(string: $text); $i++) {
+        for ($i = 0; $i < strlen($text); $i++) {
             $char = $text[$i];
 
-            if (ctype_alpha(text: $char)) {
-                $asciiOffset = ctype_upper(text: $char) ? ord(character: 'A') : ord(character: 'a');
-                $char = chr(codepoint: (ord(character: $char) + $shift - $asciiOffset) % 26 + $asciiOffset);
+            if (ctype_alpha($char)) {
+                // Determina el offset basado en si la letra es mayúscula o minúscula
+                $asciiOffset = ctype_upper($char) ? ord('A') : ord('a');
+                // Realiza el cifrado
+                $char = chr((ord($char) + $shift - $asciiOffset) % 26 + $asciiOffset);
             }
 
             $result .= $char;
@@ -24,6 +28,6 @@ class CaesarCipher
 
     public function decrypt($text, $shift): string
     {
-        return $this->encrypt(text: $text, shift: 26 - $shift);
+        return $this->encrypt($text, 26 - ($shift % 26)); // Desplazamiento inverso
     }
 }

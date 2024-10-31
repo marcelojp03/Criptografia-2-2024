@@ -27,7 +27,7 @@ class ColumnarTranspositionController extends Controller
 
             $encryptedText = $this->columnarTranposition->encrypt(text: $text, key: $key);
 
-            return response()->json(data: ['encrypted_text' => $encryptedText]);
+            return response()->json(data: ['result' => $encryptedText]);
 
         } catch (\Exception $e) {
             // Registrar el error en el log de Laravel
@@ -48,7 +48,7 @@ class ColumnarTranspositionController extends Controller
 
             $decryptedText = $this->columnarTranposition->decrypt( cipherText: $text, key: $key);
 
-            return response()->json(data: ['decrypted_text' => $decryptedText]);
+            return response()->json(data: ['result' => $decryptedText]);
 
         } catch (\Exception $e) {
             // Registrar el error en el log de Laravel

@@ -123,4 +123,11 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    // 'headers' => [
+    //     'Access-Control-Allow-Origin' => '*',
+    //     'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+    //     'Access-Control-Allow-Headers' => 'Content-Type, X-Auth-Token, Authorization, Origin, X-Requested-With, X-CSRF-TOKEN',
+    // ],
+
+
 ];

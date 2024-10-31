@@ -21,6 +21,8 @@ class CaesarCipherController extends Controller
     {
         try {
             // Log para ver si los parámetros llegan correctamente
+
+            Log::info(message: 'Request recibido', context: ['json' => $request]);
             Log::info(message: 'Encrypt request received', context: ['text' => $request->input(key: 'text'), 'shift' => $request->input(key: 'shift')]);
 
             $text = $request->input(key: 'text');
@@ -28,7 +30,7 @@ class CaesarCipherController extends Controller
 
             $encryptedText = $this->caesarCipher->encrypt(text: $text, shift: $shift);
 
-            return response()->json(data: ['encrypted_text' => $encryptedText]);
+            return response()->json(data: ['result' => $encryptedText]);
 
         } catch (\Exception $e) {
             // Registrar el error en el log de Laravel
@@ -49,7 +51,7 @@ class CaesarCipherController extends Controller
 
             $decryptedText = $this->caesarCipher->decrypt(text: $text, shift: $shift);
 
-            return response()->json(data: ['decrypted_text' => $decryptedText]);
+            return response()->json(data: ['result' => $decryptedText]);
 
         } catch (\Exception $e) {
             // Registrar el error en el log de Laravel

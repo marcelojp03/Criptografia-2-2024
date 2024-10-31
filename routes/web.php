@@ -16,6 +16,7 @@ Route::get(uri: '/', action: function (): Factory|View {
 
 Route::get(uri: '/token', action: function (): string {
     return csrf_token(); 
+
 });
 
 Route::post(uri: '/api/caesar/encrypt', action: [CaesarCipherController::class, 'encrypt']);

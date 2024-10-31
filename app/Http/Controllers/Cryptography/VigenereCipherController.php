@@ -20,6 +20,9 @@ class VigenereCipherController extends Controller
     {
         try {
             // Log para ver si los parámetros llegan correctamente
+
+            Log::info(message: 'Request recibido', context: ['json' => $request]);
+
             Log::info(message: 'Encrypt request received', context: ['text' => $request->input(key: 'text'), 'key' => $request->input(key: 'key')]);
 
             $text = $request->input(key: 'text');
@@ -27,7 +30,7 @@ class VigenereCipherController extends Controller
 
             $encryptedText = $this->vigenereCipher->encrypt(text: $text, key: $key);
 
-            return response()->json(data: ['encrypted_text' => $encryptedText]);
+            return response()->json(data: ['result' => $encryptedText]);
 
         } catch (\Exception $e) {
             // Registrar el error en el log de Laravel
@@ -48,7 +51,7 @@ class VigenereCipherController extends Controller
 
             $decryptedText = $this->vigenereCipher->decrypt(text: $text, key: $key);
 
-            return response()->json(data: ['decrypted_text' => $decryptedText]);
+            return response()->json(data: ['result' => $decryptedText]);
 
         } catch (\Exception $e) {
             // Registrar el error en el log de Laravel

@@ -7,7 +7,7 @@ class ColumnarTransposition
     public function encrypt($text, $key)
     {
         // Quitar los espacios del texto (opcional)
-        //$text = str_replace(' ', '', $text);
+        $text = str_replace(' ', '', $text);
 
         // Crear una matriz basada en la longitud de la clave
         $columns = strlen($key);
@@ -28,8 +28,9 @@ class ColumnarTransposition
 
         // Crear el array de la clave con los índices originales
         $keyOrder = str_split($key);
+        $numericKeyOrder = array_map('intval', $keyOrder); // Convertir a números
         $columnOrder = range(0, $columns - 1);
-        array_multisort($keyOrder, SORT_ASC, $columnOrder);
+        array_multisort($numericKeyOrder, SORT_ASC, $columnOrder);
 
         // Leer la matriz por columnas en el orden de la clave
         $cipherText = '';
@@ -50,8 +51,9 @@ class ColumnarTransposition
 
         // Crear el array de la clave con los índices originales
         $keyOrder = str_split($key);
+        $numericKeyOrder = array_map('intval', $keyOrder); // Convertir a números
         $columnOrder = range(0, $columns - 1);
-        array_multisort($keyOrder, SORT_ASC, $columnOrder);
+        array_multisort($numericKeyOrder, SORT_ASC, $columnOrder);
 
         // Crear la matriz vacía
         $matrix = array_fill(0, $rows, array_fill(0, $columns, ''));
@@ -60,8 +62,10 @@ class ColumnarTransposition
         $index = 0;
         foreach ($columnOrder as $colIndex) {
             for ($i = 0; $i < $rows; $i++) {
-                $matrix[$i][$colIndex] = $cipherText[$index];
-                $index++;
+                if ($index < strlen($cipherText)) {
+                    $matrix[$i][$colIndex] = $cipherText[$index];
+                    $index++;
+                }
             }
         }
 
@@ -69,7 +73,7 @@ class ColumnarTransposition
         $plainText = '';
         for ($i = 0; $i < $rows; $i++) {
             for ($j = 0; $j < $columns; $j++) {
-                if ($matrix[$i][$j] !== 'X') {
+                if ($matrix[$i][$j] !== 'X') { // Omitir el carácter de relleno
                     $plainText .= $matrix[$i][$j];
                 }
             }
