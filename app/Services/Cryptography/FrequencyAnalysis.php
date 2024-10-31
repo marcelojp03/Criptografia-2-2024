@@ -18,7 +18,6 @@ class FrequencyAnalysis
                 $frequencies[$char]++;
             }
         }
-
         // Ordenar por frecuencia
         arsort($frequencies);
         
